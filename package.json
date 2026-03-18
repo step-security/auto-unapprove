@@ -1,0 +1,34 @@
+{
+  "name": "auto-unapprove-action",
+  "version": "1.0.2",
+  "description": "Smart dismissal of PR reviews when code owners modify their files",
+  "main": "auto-unapprove.js",
+  "bin": {
+    "auto-unapprove": "./auto-unapprove.js"
+  },
+  "scripts": {
+    "build": "ncc build auto-unapprove.js -o dist",
+    "start": "node auto-unapprove.js",
+    "lint": "eslint . --ext .js,.ts,.json,.jsonc,.json5 --config .github/lint/.eslintrc.yml"
+  },
+  "keywords": [
+    "github",
+    "reviews",
+    "codeowners",
+    "automation"
+  ],
+  "author": "step-security",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "axios": "^1.13.6"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.34.1",
+    "@typescript-eslint/parser": "^8.34.1",
+    "@vercel/ncc": "^0.38.4",
+    "eslint": "^8.57.0",
+    "eslint-plugin-jsonc": "^2.10.0",
+    "jsonc-eslint-parser": "^2.4.0"
+  }
+}
