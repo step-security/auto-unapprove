@@ -448,7 +448,7 @@ async function getAllChangedFiles(headers) {
 
     const files = await response.json();
     if (files.length === 0) {
-      break;
+      break; // No more files
     }
 
     allFiles.push(...files.map((file) => file.filename));
@@ -483,7 +483,7 @@ async function getAllReviews(headers) {
 
     const reviews = await response.json();
     if (reviews.length === 0) {
-      break;
+      break; // No more reviews
     }
 
     allReviews.push(...reviews);
@@ -518,7 +518,7 @@ async function getAllCommits(headers) {
 
     const commits = await response.json();
     if (commits.length === 0) {
-      break;
+      break; // No more commits
     }
 
     allCommits.push(...commits);
