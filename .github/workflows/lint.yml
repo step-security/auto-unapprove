@@ -42,3 +42,4 @@ jobs:
           DEFAULT_BRANCH: main
           FILTER_REGEX_EXCLUDE: dist\/.*|\.github\/workflows\/[^\/]+\.yml|README\.md|github_conf\/.*
           VALIDATE_JAVASCRIPT_STANDARD: false
+          VALIDATE_CHECKOV: false

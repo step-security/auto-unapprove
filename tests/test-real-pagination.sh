@@ -9,21 +9,21 @@ echo ""
 
 # Check if required environment variables are set
 if [ -z "$GITHUB_TOKEN" ]; then
-    echo "❌ GITHUB_TOKEN is not set"
-    echo "   Please set it with: export GITHUB_TOKEN='your_token'"
-    exit 1
+	echo "❌ GITHUB_TOKEN is not set"
+	echo "   Please set it with: export GITHUB_TOKEN='your_token'"
+	exit 1
 fi
 
 if [ -z "$GITHUB_REPOSITORY" ]; then
-    echo "❌ GITHUB_REPOSITORY is not set"
-    echo "   Please set it with: export GITHUB_REPOSITORY='owner/repo'"
-    exit 1
+	echo "❌ GITHUB_REPOSITORY is not set"
+	echo "   Please set it with: export GITHUB_REPOSITORY='owner/repo'"
+	exit 1
 fi
 
 if [ -z "$PR_NUMBER" ]; then
-    echo "❌ PR_NUMBER is not set"
-    echo "   Please set it with: export PR_NUMBER='123'"
-    exit 1
+	echo "❌ PR_NUMBER is not set"
+	echo "   Please set it with: export PR_NUMBER='123'"
+	exit 1
 fi
 
 echo "✅ Environment variables are set:"
@@ -56,4 +56,4 @@ echo ""
 echo "🔍 To find PRs with many files:"
 echo "   1. Go to your repository on GitHub"
 echo "   2. Look for PRs with high 'Files changed' counts"
-echo "   3. Use PRs with >30 files to test pagination" 
+echo "   3. Use PRs with >30 files to test pagination"

@@ -8,7 +8,7 @@ echo "========================"
 echo ""
 
 # Change to tests directory
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit
 
 echo "1. Running logic tests..."
 echo "   Testing pagination logic with simulated data..."
@@ -31,4 +31,4 @@ echo ""
 
 echo "✅ Test suite completed!"
 echo ""
-echo "📖 For detailed testing instructions, see: TESTING.md" 
+echo "📖 For detailed testing instructions, see: TESTING.md"
