@@ -582,7 +582,9 @@ function pathMatches(filename, pattern) {
 
   // Handle wildcard patterns
   if (pattern.includes("*")) {
-    const regex = normalizedPattern.replace(/\*/g, ".*").replace(/\//g, "\\/");
+    const regex = normalizedPattern
+      .replace(/[.+?^${}()|[\]\\]/g, "\\$&")
+      .replace(/\*/g, ".*");
     return new RegExp(`^${regex}$`).test(normalizedFile);
   }
 
