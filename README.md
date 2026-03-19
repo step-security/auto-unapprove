@@ -3,7 +3,6 @@
 # 🚫 Auto Unapprove Reviews Action
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/step-security/auto-unapprove)
-![Github open issues](https://img.shields.io/github/issues-raw/step-security/auto-unapprove)
 ![GitHub all releases](https://img.shields.io/github/downloads/step-security/auto-unapprove/total)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
