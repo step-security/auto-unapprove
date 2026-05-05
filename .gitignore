@@ -4,3 +4,4 @@ node_modules/
 .DS_Store 
 .secret
 /super-linter-output
+**/.idea/

@@ -5,10 +5,14 @@
  * This tests the logic without making real API calls
  */
 
-// Mock the global variables that the functions expect
-global.owner = "test-owner";
-global.repo = "test-repo";
-global.prNumber = "123";
+// Set env vars before requiring the module so core.getInput() resolves correctly
+process.env.GITHUB_REPOSITORY = "test-owner/test-repo";
+process.env["INPUT_GITHUB-TOKEN"] = "mock-token";
+process.env["INPUT_PR-NUMBER"] = "123";
+process.env["INPUT_DRY-RUN"] = "true";
+process.env["INPUT_CODE-OWNERS-FILE"] = "CODEOWNERS";
+process.env["INPUT_TARGET-BRANCH"] = "main";
+process.env["INPUT_TEAM-START-WITH"] = "@";
 
 // Mock fetch function
 global.fetch = async (url) => {

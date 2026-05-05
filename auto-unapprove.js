@@ -6,32 +6,31 @@
  * Selectively dismisses PR reviews from code owners whose files were modified.
  * Optimized for performance with GitHub API v2022-11-28.
  *
- * Usage:
- *   node auto-unapprove.js [options]
+ * Action Inputs:
+ *   github-token      - GitHub API token (required)
+ *   pr-number         - Pull request number (required)
+ *   team-start-with   - Team prefix (default: @your-org/)
+ *   dry-run           - Set to 'false' for actual dismissals (default: true)
+ *   code-owners-file  - Path to CODEOWNERS file (default: CODEOWNERS)
+ *   target-branch     - Target branch for CODEOWNERS file (default: main)
  *
- * Environment Variables:
- *   GITHUB_TOKEN      - GitHub API token (required)
- *   PR_NUMBER         - Pull request number (required)
+ * Environment Variables (GitHub Actions built-ins):
  *   GITHUB_REPOSITORY - Repository in format owner/repo (required)
- *   TEAM_START_WITH   - Team prefix (default: @)
- *   DRY_RUN           - Set to 'false' for actual dismissals (default: true)
- *   CODEOWNERS_FILE   - Path to CODEOWNERS file (default: CODEOWNERS)
  *   CHANGED_FILES     - Newline-separated list of files (for webhook optimization)
- *   TARGET_BRANCH     - Target branch (default: main) (for CODEOWNERS file)
  */
 
 const fs = require("fs");
 const core = require("@actions/core");
 const axios = require("axios");
 
-const token = process.env.GITHUB_TOKEN;
+const token = core.getInput("github-token");
 const repository = process.env.GITHUB_REPOSITORY;
 const [owner, repo] = repository?.split("/") || [];
-const team_start_with = process.env.TEAM_START_WITH || "@";
-const prNumber = process.env.PR_NUMBER;
-const dryRun = process.env.DRY_RUN !== "false";
-const codeownersFile = process.env.CODEOWNERS_FILE || "CODEOWNERS";
-const targetBranch = process.env.TARGET_BRANCH || "main";
+const team_start_with = core.getInput("team-start-with") || "@";
+const prNumber = core.getInput("pr-number");
+const dryRun = core.getInput("dry-run") !== "false";
+const codeownersFile = core.getInput("code-owners-file") || "CODEOWNERS";
+const targetBranch = core.getInput("target-branch") || "main";
 
 async function validateSubscription() {
   let repoPrivate;
@@ -82,10 +81,10 @@ async function smartDismissReviews() {
 
     // Validate inputs
     if (!token) {
-      throw new Error("GITHUB_TOKEN environment variable is required");
+      throw new Error("github-token input is required");
     }
     if (!prNumber) {
-      throw new Error("PR_NUMBER environment variable is required");
+      throw new Error("pr-number input is required");
     }
     if (!repository) {
       throw new Error("GITHUB_REPOSITORY environment variable is required");
