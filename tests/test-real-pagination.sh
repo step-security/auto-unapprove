@@ -32,15 +32,20 @@ echo "   PR Number: $PR_NUMBER"
 echo "   Token: ${GITHUB_TOKEN:0:10}..."
 echo ""
 
-# Set dry run mode for safety
-export DRY_RUN="true"
-
 echo "🚀 Running pagination test..."
 echo "   Mode: DRY RUN (safe)"
 echo ""
 
-# Run the script
-node ../auto-unapprove.js
+# Run the script — @actions/core reads inputs from INPUT_* env vars
+env \
+	"INPUT_GITHUB-TOKEN=$GITHUB_TOKEN" \
+	"INPUT_PR-NUMBER=$PR_NUMBER" \
+	"INPUT_DRY-RUN=true" \
+	"INPUT_CODE-OWNERS-FILE=${CODE_OWNERS_FILE:-CODEOWNERS}" \
+	"INPUT_TARGET-BRANCH=${TARGET_BRANCH:-main}" \
+	"INPUT_TEAM-START-WITH=${TEAM_START_WITH:-@}" \
+	GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \
+	node ../auto-unapprove.js
 
 echo ""
 echo "📊 Test Results:"
