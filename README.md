@@ -169,17 +169,36 @@ _For more workflow examples, see [`example-workflow.yml`](./example-workflow.yml
 | `target-branch` | - | `main` | Target branch to read CODEOWNERS from |
 | `team-start-with` | - | `@` | Team prefix for organization |
 
-### **Environment Variables** (Direct Script Usage)
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `GITHUB_TOKEN` | ✅ | - | GitHub API token with repo access |
-| `PR_NUMBER` | ✅ | - | Pull request number to analyze |
-| `GITHUB_REPOSITORY` | ✅ | - | Repository in owner/repo format |
-| `TEAM_START_WITH` | - | `@` | Team prefix for organization |
-| `DRY_RUN` | - | `true` | Set to 'false' for actual dismissals |
-| `CODEOWNERS_FILE` | - | `CODEOWNERS` | Path to CODEOWNERS file |
-| `TARGET_BRANCH` | - | `main` | Target branch to read CODEOWNERS from |
-| `CHANGED_FILES` | - | - | Newline-separated files (webhook optimization) | 
+### **Local Execution** (Direct Script Usage)
+
+Action inputs are read via `@actions/core`, which expects `INPUT_<NAME>` environment variables. `GITHUB_REPOSITORY` is a GitHub Actions built-in and is read directly.
+
+```bash
+export GITHUB_TOKEN='your_token'
+export GITHUB_REPOSITORY='owner/repo'
+export PR_NUMBER='123'
+
+env \
+  "INPUT_GITHUB-TOKEN=$GITHUB_TOKEN" \
+  "INPUT_PR-NUMBER=$PR_NUMBER" \
+  "INPUT_DRY-RUN=true" \
+  "INPUT_CODE-OWNERS-FILE=CODEOWNERS" \
+  "INPUT_TARGET-BRANCH=main" \
+  "INPUT_TEAM-START-WITH=@your-org/" \
+  GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \
+  node auto-unapprove.js
+```
+
+| `INPUT_*` Variable | Required | Default | Description |
+|--------------------|----------|---------|-------------|
+| `INPUT_GITHUB-TOKEN` | ✅ | - | GitHub API token with repo access |
+| `INPUT_PR-NUMBER` | ✅ | - | Pull request number to analyze |
+| `GITHUB_REPOSITORY` | ✅ | - | Repository in owner/repo format (built-in) |
+| `INPUT_TEAM-START-WITH` | - | `@` | Team prefix for organization |
+| `INPUT_DRY-RUN` | - | `true` | Set to `false` for actual dismissals |
+| `INPUT_CODE-OWNERS-FILE` | - | `CODEOWNERS` | Path to CODEOWNERS file |
+| `INPUT_TARGET-BRANCH` | - | `main` | Target branch to read CODEOWNERS from |
+| `CHANGED_FILES` | - | - | Newline-separated files (webhook optimization) |
 
 ## 🧪 **Testing**
 
@@ -195,8 +214,7 @@ The project includes comprehensive tests for the pagination implementation:
 export GITHUB_TOKEN='your_token'
 export GITHUB_REPOSITORY='owner/repo'
 export PR_NUMBER='123'
-export DRY_RUN='true'
-./tests/test-real-pagination.sh
+./tests/test-real-pagination.sh  # DRY_RUN=true is set automatically
 ```
 
 ### **Test Files**:

@@ -21,13 +21,17 @@ node test-mock-pagination.js
 export GITHUB_TOKEN='your_github_token'
 export GITHUB_REPOSITORY='owner/repo'
 export PR_NUMBER='123'
-export DRY_RUN='true'  # Always start with dry run!
 
-# Run the test script
+# Run the test script (DRY_RUN=true is set automatically)
 ./test-real-pagination.sh
 
-# Or run directly
-node auto-unapprove.js
+# Or run directly — @actions/core reads inputs from INPUT_* env vars
+env \
+  "INPUT_GITHUB-TOKEN=$GITHUB_TOKEN" \
+  "INPUT_PR-NUMBER=$PR_NUMBER" \
+  "INPUT_DRY-RUN=true" \
+  GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \
+  node ../auto-unapprove.js
 ```
 
 ## 📊 What to Look For
@@ -92,8 +96,7 @@ node auto-unapprove.js
 ### Scenario 1: Small PR (<30 files)
 
 ```bash
-export PR_NUMBER='small-pr-number'
-node auto-unapprove.js
+env "INPUT_GITHUB-TOKEN=$GITHUB_TOKEN" "INPUT_PR-NUMBER=small-pr-number" "INPUT_DRY-RUN=true" GITHUB_REPOSITORY="$GITHUB_REPOSITORY" node ../auto-unapprove.js
 ```
 
 **Expected**: Single page, all files found
@@ -101,8 +104,7 @@ node auto-unapprove.js
 ### Scenario 2: Medium PR (30-100 files)
 
 ```bash
-export PR_NUMBER='medium-pr-number'
-node auto-unapprove.js
+env "INPUT_GITHUB-TOKEN=$GITHUB_TOKEN" "INPUT_PR-NUMBER=medium-pr-number" "INPUT_DRY-RUN=true" GITHUB_REPOSITORY="$GITHUB_REPOSITORY" node ../auto-unapprove.js
 ```
 
 **Expected**: Single page with 100 items, all files found
@@ -110,8 +112,7 @@ node auto-unapprove.js
 ### Scenario 3: Large PR (>100 files)
 
 ```bash
-export PR_NUMBER='large-pr-number'
-node auto-unapprove.js
+env "INPUT_GITHUB-TOKEN=$GITHUB_TOKEN" "INPUT_PR-NUMBER=large-pr-number" "INPUT_DRY-RUN=true" GITHUB_REPOSITORY="$GITHUB_REPOSITORY" node ../auto-unapprove.js
 ```
 
 **Expected**: Multiple pages, correct total count
@@ -120,17 +121,14 @@ node auto-unapprove.js
 
 ### Always Start with Dry Run
 
-```bash
-export DRY_RUN='true'
-node auto-unapprove.js
-```
+Pass `INPUT_DRY-RUN=true` (the default) before running directly, or use `test-real-pagination.sh` which sets it automatically.
 
 ### Check Output Before Live Run
 
 1. Verify all files are found
 2. Confirm pagination worked
 3. Review dismissal targets
-4. Only then set `DRY_RUN='false'`
+4. Only then set `INPUT_DRY-RUN=false`
 
 ## 📈 Performance Testing
 
@@ -192,7 +190,7 @@ Your pagination implementation is working correctly if:
 
 After confirming pagination works:
 
-1. Test with real dismissals (`DRY_RUN='false'`)
+1. Test with real dismissals (`INPUT_DRY-RUN=false`)
 2. Monitor GitHub Actions logs
 3. Verify review dismissals are correct
 4. Check that all code owners are properly identified
