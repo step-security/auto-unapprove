@@ -111,12 +111,12 @@ function showRealTestInstructions() {
   console.log("   export PR_NUMBER='123'\n");
 
   console.log("2. Run the script (INPUT_ prefix required by @actions/core):");
-  console.log('   env \\');
+  console.log("   env \\");
   console.log('     "INPUT_GITHUB-TOKEN=$GITHUB_TOKEN" \\');
   console.log('     "INPUT_PR-NUMBER=$PR_NUMBER" \\');
   console.log('     "INPUT_DRY-RUN=true" \\');
   console.log('     GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \\');
-  console.log('     node auto-unapprove.js\n');
+  console.log("     node auto-unapprove.js\n");
 
   console.log("3. Look for pagination logs:");
   console.log("   📄 Fetching page 1...");
